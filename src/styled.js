@@ -1,18 +1,18 @@
-import styled, {createGlobalStyle} from 'styled-components';
+import {createGlobalStyle} from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        
-        /* font-family: */
+        font-family: 'Nunito', sans-serif;
+        color: #6c757d;
         text-decoration: none;
         list-style-type: none;
         outline: none;
         
     }
-    
     img{
         /* max-width: 100%; */
         /* height: auto; */
