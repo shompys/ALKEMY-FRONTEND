@@ -1,18 +1,19 @@
 import {createGlobalStyle} from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+    
     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         color: #6c757d;
         text-decoration: none;
         list-style-type: none;
         outline: none;
         
     }
+    
     img{
         /* max-width: 100%; */
         /* height: auto; */
@@ -35,9 +36,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const desktopWidth = 768;
-export const mobile = `@media screen and (max-width: ${desktopWidth}px)`;
-export const tablet = `@media screen and (min-width: ${desktopWidth}px)`;
+export const mobile = `@media screen and (max-width: 768px)`;
+export const tablet = `@media screen and (min-width: 768px)`;
 export const desktop = `@media screen and (min-width: 1024px)`;
 export const tv = `@media screen and (min-width: 1400px)`; 
 

@@ -24,3 +24,9 @@ export const formatUnixToDate = unix => {
     return `${date}/${mounth}/${genericDate.getFullYear()}`;
 
 }
+
+export const getCurrentDate = () => {
+
+    const rightNow = new Date();
+    return `${rightNow.getDate()}/${rightNow.getMonth()}/${rightNow.getFullYear()} ${rightNow.getHours()}:${rightNow.getMinutes()}:${rightNow.getSeconds()}`
+}

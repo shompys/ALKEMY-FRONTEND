@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {mobile, tablet, desktop, tv} from '../styled';
+// import {mobile, tablet, desktop, tv} from '../styled';
 
 
 
@@ -15,20 +15,15 @@ function ItemList({concept, amount, date, type, deleteOperations}){
 
             <Type type={type}>{type ? 'Ingreso' : 'Egreso'} </Type>
 
-            
             <Labels>Fecha: </Labels>
 
             <Date>{date}</Date>
             
-            
             <Labels>Concepto: </Labels>
             <Concept>{concept}</Concept>
             
-
-            
             <Edit><IconEdit className="fas fa-edit"></IconEdit></Edit>
             <Delete onClick={deleteOperations}><IconDelete className="fas fa-trash-alt"></IconDelete></Delete>
-            
         </Item>
     )
 }

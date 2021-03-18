@@ -1,35 +1,45 @@
 import React from 'react';
+import styled from 'styled-components';
 import {Line} from 'react-chartjs-2';
+import {formatUnixToDateWithHour} from '../libs/handleDate';
 
-function Charts(props){
+function Charts({operations}){
     
-    // const [data, setData] = React.useState(props);
+    const allDate = operations.map(v => ({date: v.date, amount: v.amount, type: v.type}));
 
-    // console.log(amount)
+    const today = allDate.filter(v => v.date.substring(0,10) === formatUnixToDateWithHour(new Date()).substring(0,10));
+    const todayOnlyHours = today.map(v => v.date.substring(11));
+
+    
+    const typeSum = today.filter( v => v.type === 1);
+    const typeSub = today.filter( v => v.type === 0);
+    const sumAmount = typeSum.map(v => v.amount);
+    const subAmount = typeSub.map(v => v.amount);
+
+
+    
+    console.log(sumAmount)
     return (
-        <Line
-            data={{
-                labels: ['Ingresos', 'Egresos'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        'rgba(46, 206, 40, .8)',
-                        'rgba(202, 18, 18, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(46, 206, 40, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 2
-                }]
-            }}
-            
-        />
+        <Content>
+            <Line
+                data={{
+                    labels: todayOnlyHours,
+                    datasets: [{
+                        label: 'Mi dinero',
+                        fill: false,
+                        data: [sumAmount, 0, subAmount],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                }}
+            />
+        </Content>
     )
 }
+const Content = styled.div`
+   grid-column: 1/4;
+`;
+
 export default Charts;

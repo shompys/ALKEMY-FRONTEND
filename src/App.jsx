@@ -14,5 +14,6 @@ function App() {
 
 const ContentMaster = styled.div`
   background-color: #f3f3f3;
+  
 `
 export default App;
