@@ -12,6 +12,7 @@ function Home() {
     const [operations, setOperations] = React.useState([]);
     const [total, setTotal] = React.useState(0);
     const [counter, setCounter] = React.useState(0);
+    const [isOpenModal, setIsOpenModal] = React.useState(false);
 
     const addOperations = async (object) => {
         const {concept, amount, type} = object;
@@ -75,8 +76,10 @@ function Home() {
     return(<>
         <Content>
             
-            <FormModal addOperations={addOperations}/>
-            <Dashboard total={total} counter={counter} operations={operations}/>
+            {
+                isOpenModal && <FormModal addOperations={addOperations} closeModal={() => setIsOpenModal(false)}/>
+            }
+            <Dashboard total={total} counter={counter} operations={operations} openModal={() => setIsOpenModal(true)}/>
             {/* <Chart operations={operations} /> */}
             {
                 lastTen(operations).map((value) => <ItemList key={value.id_operation} {...value} deleteOperations={ () => deleteOperations(value.id_operation)}/>)

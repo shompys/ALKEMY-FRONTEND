@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 // import Charts from './Chart';
 
-function Dashboard({total, counter, operations}){
-    
+function Dashboard({total, counter, operations, openModal}){
     return(
         <Content>
             <ContentFaceIcon>
@@ -20,7 +19,8 @@ function Dashboard({total, counter, operations}){
     
                 <Label>{counter} registros totales</Label>
             </ContentData>
-            <Button>Ingresar Registro</Button>
+
+            <Button onClick={() => openModal()}>Ingresar Registro</Button>
             {/* <Charts operations={operations}/> */}
             
         </Content>
