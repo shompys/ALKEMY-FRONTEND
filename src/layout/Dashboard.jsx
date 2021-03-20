@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {miniMobile} from '../styled';
 // import Charts from './Chart';
 
 function Dashboard({total, counter, operations, openModal}){
@@ -15,7 +16,7 @@ function Dashboard({total, counter, operations, openModal}){
             <ContentData>
                 <Label>Disponible </Label>
                 
-                <Span>$ {total.toFixed(2)}</Span>
+                <Span>$ {total?.toFixed(2)}</Span>
     
                 <Label>{counter} registros totales</Label>
             </ContentData>
@@ -30,7 +31,7 @@ function Dashboard({total, counter, operations, openModal}){
 
 const Content = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(87px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(70px,1fr));
     column-gap: 1rem;
     row-gap: 2rem;
     align-items: center;
@@ -60,22 +61,27 @@ const FaceIcon = styled.i`
 const ContentData = styled.div`
     display: grid;
     gap: .5rem;
+   
 `;
 
 const Label = styled.label`
     font-size: .8em;
+    
 `;
 
 const Span = styled.span`
+    ${miniMobile}{
+    font-size: 1.3em;
+    }
     font-size: 1.5em;
     font-weight: 600;
-    width: 128px;
+    width: 220px;
 `;
 const Button = styled.button`
     grid-column: 1/-1;
     font-weight: 600;
     color: #044AC5;
-    background-color: rgb(4, 74, 197, .1);
+    background-color: rgba(4, 74, 197, .1);
     height: 50px;
     display:flex;
     justify-content: center;

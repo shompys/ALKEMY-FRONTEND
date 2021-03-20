@@ -24,9 +24,6 @@ export const GlobalStyle = createGlobalStyle`
         background: transparent;
         border:1px solid rgba(129, 109, 158, 0.2); 
     }
-    input:focus, textarea:focus, button:focus{
-        border: 1px solid #6c757d;
-    }
     button{
         cursor: pointer;
     }
@@ -36,6 +33,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
+export const miniMobile = `@media screen and (max-width: 360px)`;
 export const mobile = `@media screen and (max-width: 768px)`;
 export const tablet = `@media screen and (min-width: 768px)`;
 export const desktop = `@media screen and (min-width: 1024px)`;

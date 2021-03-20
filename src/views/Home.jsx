@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Dashboard from '../layout/Dashboard';
-// import Chart from '../layout/Chart';
 import FormModal from '../layout/FormModal';
 import ItemList from '../layout/ItemList';
+import svg from '../assets/svg';
 import {formatUnixToDateWithHour} from '../libs/handleDate';
 
 
 function Home() {
-    
+    const [serverStatus, setServerStatus] = React.useState(false);
     const [operations, setOperations] = React.useState([]);
     const [total, setTotal] = React.useState(0);
     const [counter, setCounter] = React.useState(0);
     const [isOpenModal, setIsOpenModal] = React.useState(false);
+    const [isEdit, setIsEdit] = React.useState(false);
+    const [idOperation, setIdOperation] = React.useState('');
 
     const addOperations = async (object) => {
         const {concept, amount, type} = object;
@@ -29,9 +31,11 @@ function Home() {
                 type
             })
         }
+        
         const response = await fetch(urlApi, options);
         const data = await response.json();
 
+        getOperations()
         console.log(data);
 
     }
@@ -49,18 +53,46 @@ function Home() {
     
     const getOperations = async () => {
         const urlApi = `http://192.168.0.222:4000/api/operations`;
-
-        const response = await fetch(urlApi)
-        const data = await response.json()
-        const format = data.map((value) => ({...value, date: formatUnixToDateWithHour(value.date)}) );
+        try{
+            const response = await fetch(urlApi)
+            const data = await response.json()
+            
+            const format = data?.map((value) => ({...value, date: formatUnixToDateWithHour(value.date)}) );
+            setServerStatus(true);
+            setOperations(format);
+        }catch(e){
+            console.log('problems with serve')
+        }
         
-        setOperations(format);
+    }
+    const updateOperations = async (object) => {
+        console.log(object)
+        const {idOperation, concept, amount} = object;
+        const urlApi = `http://192.168.0.222:4000/api/operations/${idOperation}`;
+        const options = {
+            method: 'PATCH',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({
+                concept,
+                amount
+            })
+        }
+        
+        await fetch(urlApi, options)
+        getOperations()
+        
     }
 
     const lastTen = (regs) => regs.slice(-10).map((value, index, arr) => arr[arr.length-1-index])
     
     React.useEffect(() => {
-        getOperations();
+        
+        setTimeout(() => {
+            getOperations()
+        },1000)
+        
     },[])
 
     React.useEffect(() => {
@@ -68,24 +100,52 @@ function Home() {
             if(current.type) return acc + current.amount;
             return acc - current.amount
         }
-        setCounter(operations.length);
-        setTotal(operations.reduce(addOrSubstract,0));
+        setCounter(operations?.length);
+        setTotal(operations?.reduce(addOrSubstract,0));
         
     },[operations])
 
+    const openModal = () => {
+        setIsOpenModal(true);
+        setIsEdit(false);
+    }
+    const openModalEdit = (id) => {
+
+        setIdOperation(id);
+        setIsOpenModal(true);
+        setIsEdit(true);
+    }
+    
+    if(!serverStatus){
+        return(<Img src={svg.loading} alt="loading"/>)
+    }
     return(<>
-        <Content>
-            
+        
+
+        <Content >
             {
-                isOpenModal && <FormModal addOperations={addOperations} closeModal={() => setIsOpenModal(false)}/>
+                isOpenModal && <FormModal 
+                isEdit={isEdit}
+                idOperation={idOperation}
+                addOperations={addOperations} 
+                updateOperations={updateOperations} 
+                closeModal={() => setIsOpenModal(false)}/>
             }
-            <Dashboard total={total} counter={counter} operations={operations} openModal={() => setIsOpenModal(true)}/>
-            {/* <Chart operations={operations} /> */}
+
+            <Dashboard total={total} counter={counter} operations={operations} openModal={openModal}/>
+
             {
-                lastTen(operations).map((value) => <ItemList key={value.id_operation} {...value} deleteOperations={ () => deleteOperations(value.id_operation)}/>)
+                lastTen(operations).map((value) => 
+                <ItemList key={value.id_operation} {...value} 
+                deleteOperations={ () => deleteOperations(value.id_operation)} 
+                openModal={() => openModalEdit(value.id_operation)} />)
             }
         </Content>
+
     </>)
+        
+        
+    
 }
 const Content = styled.div`
     width:100%;
@@ -94,4 +154,11 @@ const Content = styled.div`
     gap: 1rem;
     
 `;
+const Img = styled.img`
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+
+`
 export default Home;
