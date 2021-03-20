@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {validateAmount, validateConcept, validateType} from '../libs/fieldValidator';
 
-function FormModal({addOperations, closeModal, updateOperations, isEdit, idOperation}){
-
+function FormModal({addOperations, closeModal, updateOperations, isEdit, dataEditOperation}){
+    
     const [entry, setEntry] = React.useState({});
     const [error, setError] = React.useState({});
-    
     const handleOnChange = e => {
         
         e.target.name === 'concept' && setError({...error, [e.target.name]: validateConcept(e.target.value)});
@@ -20,8 +19,9 @@ function FormModal({addOperations, closeModal, updateOperations, isEdit, idOpera
     }
     const handleFormEdit = (e) => {
         e.preventDefault();
+
         if(error?.concept === '' && error?.amount === ''){
-            updateOperations({...entry, idOperation})
+            updateOperations({...entry, idOperation: dataEditOperation.id_operation})
             e.target.reset();
             setEntry({});
             closeModal();
@@ -82,21 +82,23 @@ function FormModal({addOperations, closeModal, updateOperations, isEdit, idOpera
         e.target.name === 'amount' && setError({...error, [e.target.name]: validateAmount(e.target.value)});
         e.target.name === 'type' && setError({...error, [e.target.name]: validateType(e.target.value)});
     }
-
+    
     return(
     <Content >
         
         <Form onSubmit={ isEdit ? handleFormEdit : handleForm }>
             
             <CloseIcon className="fas fa-window-close" onClick={() => closeModal()}></CloseIcon>
-
+            
             <ContentPosition>
                 <Label >
                     <Span >Concepto</Span>
+                    
                     <Input type="text" name="concept" autoComplete="off"
                     onChange={handleOnChange}
                     onFocus={placeholderEffect} 
                     onBlur={handleErrorAndPlaceholder}/>
+                         
                 </Label>
                 {
                     error.concept === undefined ? undefined 
@@ -109,11 +111,12 @@ function FormModal({addOperations, closeModal, updateOperations, isEdit, idOpera
             <ContentPosition>
                 <Label>
                     <Span>Cantidad</Span>
+
                     <Input type="text" name="amount" autoComplete="off"
                     onChange={handleOnChange}
                     onFocus={placeholderEffect} 
                     onBlur={handleErrorAndPlaceholder}/>
-                    
+                        
                 </Label>
 
                 {
@@ -150,7 +153,7 @@ function FormModal({addOperations, closeModal, updateOperations, isEdit, idOpera
                 isEdit ? (error?.concept === '' && error?.amount === '') 
                 ? <Button type="submit">Editar Registro</Button> 
                 : <Button type="submit">Completa los campos</Button> 
-                : (error?.concept === '' && error?.amount === '' && error?.type === '') 
+                : (error?.concept === '' && error?.amount === '' && error?.type === '')
                 ? <Button type="submit">Cargar Registro</Button> 
                 : <Button type="submit">Completa los campos</Button>
             }
@@ -223,6 +226,7 @@ const Error = styled.p`
     left: 5px;
 `
 const Label = styled.label`
+    
     display:block;
     position:relative;
     border: 1px solid rgba(4, 74, 197, .3);
@@ -230,12 +234,13 @@ const Label = styled.label`
     border-radius: 0.2rem;
     
 `;
+
 const Span = styled.span`
     position: absolute;
+    cursor:text;
     top: 15px;
     left: 15px;
     font-size: .9rem;
-    cursor:text;
 `;
 const Input = styled.input`
     display: block;

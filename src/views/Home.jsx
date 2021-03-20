@@ -6,7 +6,6 @@ import ItemList from '../layout/ItemList';
 import svg from '../assets/svg';
 import {formatUnixToDateWithHour} from '../libs/handleDate';
 
-
 function Home() {
     const [serverStatus, setServerStatus] = React.useState(false);
     const [operations, setOperations] = React.useState([]);
@@ -14,7 +13,7 @@ function Home() {
     const [counter, setCounter] = React.useState(0);
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [isEdit, setIsEdit] = React.useState(false);
-    const [idOperation, setIdOperation] = React.useState('');
+    const [dataEditOperation, setDataEditOperation] = React.useState({});
 
     const addOperations = async (object) => {
         const {concept, amount, type} = object;
@@ -50,7 +49,6 @@ function Home() {
         setOperations(refreshOperations)
         
     }
-    
     const getOperations = async () => {
         const urlApi = `http://192.168.0.222:4000/api/operations`;
         try{
@@ -66,7 +64,7 @@ function Home() {
         
     }
     const updateOperations = async (object) => {
-        console.log(object)
+        
         const {idOperation, concept, amount} = object;
         const urlApi = `http://192.168.0.222:4000/api/operations/${idOperation}`;
         const options = {
@@ -84,7 +82,6 @@ function Home() {
         getOperations()
         
     }
-
     const lastTen = (regs) => regs.slice(-10).map((value, index, arr) => arr[arr.length-1-index])
     
     React.useEffect(() => {
@@ -109,9 +106,9 @@ function Home() {
         setIsOpenModal(true);
         setIsEdit(false);
     }
-    const openModalEdit = (id) => {
-
-        setIdOperation(id);
+    const openModalEdit = (operation) => {
+        const {id_operation, concept, amount} = operation
+        setDataEditOperation({id_operation, concept, amount});
         setIsOpenModal(true);
         setIsEdit(true);
     }
@@ -126,7 +123,7 @@ function Home() {
             {
                 isOpenModal && <FormModal 
                 isEdit={isEdit}
-                idOperation={idOperation}
+                dataEditOperation={dataEditOperation}
                 addOperations={addOperations} 
                 updateOperations={updateOperations} 
                 closeModal={() => setIsOpenModal(false)}/>
@@ -138,14 +135,12 @@ function Home() {
                 lastTen(operations).map((value) => 
                 <ItemList key={value.id_operation} {...value} 
                 deleteOperations={ () => deleteOperations(value.id_operation)} 
-                openModal={() => openModalEdit(value.id_operation)} />)
+                openModal={() => openModalEdit(value)} />)
             }
         </Content>
 
     </>)
         
-        
-    
 }
 const Content = styled.div`
     width:100%;
