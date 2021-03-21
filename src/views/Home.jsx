@@ -14,7 +14,7 @@ function Home() {
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [isEdit, setIsEdit] = React.useState(false);
     const [dataEditOperation, setDataEditOperation] = React.useState({});
-
+    
     const addOperations = async (object) => {
         const {concept, amount, type} = object;
 

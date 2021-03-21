@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {tablet} from '../styled'
 import {validateAmount, validateConcept, validateType} from '../libs/fieldValidator';
 
 function FormModal({addOperations, closeModal, updateOperations, isEdit, dataEditOperation}){
@@ -174,20 +175,26 @@ const Content = styled.div`
     z-index: 5000;
     
 `;
+
 const Form = styled.form`
+    box-shadow: 0 0 2px 1px #acaaaa;
     border-radius: 10px;
     padding: 5rem 1rem;
     display: grid;
     justify-items: center;
     gap: 2rem;
     width: 90%;
-    /* height:70%; */
     position: fixed;
     top:50%;
     left:50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
     z-index: 6000;
+    
+    ${tablet}{
+        padding: 4rem 2rem;
+        width: 350px;
+    }
 `;
 
 //----
