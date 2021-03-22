@@ -13,6 +13,11 @@ Esto instalara todas las dependencias necesarias._
 ```
 npm install
 ```
+_Generar un archivo con el nombre '.env.local' a nivel del archivo package.json y cargar las siguiente variable de entorno, debe apuntar a la dirección del servidor backend, el puerto ya esta predefinido en el 4000._
+
+```
+REACT_APP_URI=
+```
 
 _Una vez realizado esto ejecutar_
 ```

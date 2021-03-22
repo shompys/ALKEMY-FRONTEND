@@ -6,6 +6,8 @@ import ItemList from '../layout/ItemList';
 import svg from '../assets/svg';
 import {formatUnixToDateWithHour} from '../libs/handleDate';
 
+const {REACT_APP_URI} = process.env;
+
 function Home() {
     const [serverStatus, setServerStatus] = React.useState(false);
     const [operations, setOperations] = React.useState([]);
@@ -18,7 +20,7 @@ function Home() {
     const addOperations = async (object) => {
         const {concept, amount, type} = object;
 
-        const urlApi = `http://192.168.0.222:4000/api/operations`;
+        const urlApi = `http://${REACT_APP_URI}:4000/api/operations`;
         const options = {
             method: 'post',
             headers:{
@@ -40,7 +42,7 @@ function Home() {
     }
     const deleteOperations = async (id) => {
         
-        const urlApi = `http://192.168.0.222:4000/api/operations/${id}`;
+        const urlApi = `http://${REACT_APP_URI}:4000/api/operations/${id}`;
         const options = {method: 'delete'}
         await fetch(urlApi,options);
 
@@ -50,7 +52,7 @@ function Home() {
         
     }
     const getOperations = async () => {
-        const urlApi = `http://192.168.0.222:4000/api/operations`;
+        const urlApi = `http://${REACT_APP_URI}:4000/api/operations`;
         try{
             const response = await fetch(urlApi)
             const data = await response.json()
@@ -66,7 +68,7 @@ function Home() {
     const updateOperations = async (object) => {
         
         const {idOperation, concept, amount} = object;
-        const urlApi = `http://192.168.0.222:4000/api/operations/${idOperation}`;
+        const urlApi = `http://${REACT_APP_URI}:4000/api/operations/${idOperation}`;
         const options = {
             method: 'PATCH',
             headers:{
