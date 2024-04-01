@@ -4,7 +4,7 @@ Pequeño proyecto challenge para alkemy
 
 ## Instalación 🔧
 
-_Tener instalado Node y previamente ver ejecutado la app backend._
+_Tener instalado Node y previamente haber ejecutado la app backend._
 * [ALKEMY - APIREST](https://github.com/shompys/ALKEMY-APIREST)
 
 _Una vez parados sobre la carpeta raíz a la altura del archivo package.json ejecutar.
